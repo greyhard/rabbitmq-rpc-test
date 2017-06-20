@@ -1,0 +1,34 @@
+version: '2'
+services:
+  rasearch:
+    build: .
+    restart: always
+   logging:
+     driver: none
+    depends_on:
+      - torpool
+      - rabbitmq
+  torpool:
+    image: zeta0/alpine-tor:latest
+    expose:
+      - 2090
+      - 5566
+      - 8118
+    restart: always
+    logging:
+      driver: none
+  rabbitmq:
+      image: rabbitmq:3
+      expose:
+        - 4369
+        - 5671
+        - 5672
+        - 25672
+      ports:
+        - "127.0.0.1:4369:4369"
+        - "127.0.0.1:5671:5671"
+        - "127.0.0.1:5672:5672"
+        - "127.0.0.1:25672:25672"
+      restart: always
+      logging:
+        driver: none
